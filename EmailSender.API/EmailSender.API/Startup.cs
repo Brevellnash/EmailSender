@@ -1,3 +1,5 @@
+using EmailSender.API.Models;
+using EmailSender.API.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -6,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +29,12 @@ namespace EmailSender.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddSingleton<ILogger>(svc => svc.GetRequiredService<ILogger<EmailSenderService>>());
+            services.Configure<EmailSenderConfiguration>(
+                Configuration.GetSection(nameof(EmailSenderConfiguration)));
+            services.AddSingleton<IEmailSenderConfiguration>(sp =>
+                sp.GetRequiredService<IOptions<EmailSenderConfiguration>>().Value);
+            services.AddSingleton<EmailSenderService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
