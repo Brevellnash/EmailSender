@@ -28,6 +28,43 @@
   color: #61dafb;
 }
 
+.text-danger{
+  color: red;
+}
+.input-label{
+  padding-right: 10px;
+}
+
+.form-group{
+  padding: 10px;
+  border-bottom: solid;
+  border-width: 1px;
+  margin-bottom: 10px;
+  width: 20%;
+  margin-left: 40%;
+}
+
+.form-control{
+  width: 55%;
+  height: 10%;
+}
+
+.button {
+  background-color: #0763e5; /* blue */
+  border: none;
+  color: white;
+  width: 5%;
+  height: 3%;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 6px;
+  margin: 0;
+  position: absolute;
+  left: 47.5%;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
