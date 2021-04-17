@@ -22,15 +22,23 @@ namespace EmailSender.API.Services
 
         public async Task<System.Net.HttpStatusCode> SendEmail(EmailSendRequest request)
         {
-            var apiKey = _emailConfig.SendGridApiKey;
-            var client = new SendGridClient(apiKey);
-            var from = new EmailAddress(_emailConfig.FromAddress, _emailConfig.FromUser);
-            var subject = request.Subject;
-            var to = new EmailAddress(request.Recipient);
-            var htmlContent = request.Content;
-            var msg = MailHelper.CreateSingleEmail(from, to, subject, null, htmlContent);
-            var response = await client.SendEmailAsync(msg);
-            return response.StatusCode;
+            try
+            {
+                var apiKey = _emailConfig.SendGridApiKey;
+                var client = new SendGridClient(apiKey);
+                var from = new EmailAddress(_emailConfig.FromAddress, _emailConfig.FromUser);
+                var subject = request.Subject;
+                var to = new EmailAddress(request.Recipient);
+                var htmlContent = request.Content;
+                var msg = MailHelper.CreateSingleEmail(from, to, subject, null, htmlContent);
+                var response = await client.SendEmailAsync(msg);
+                return response.StatusCode;
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "Exception {ex.Message} encountered when trying to send email", ex.Message);
+                return System.Net.HttpStatusCode.InternalServerError;
+            }
         }
 
     }
