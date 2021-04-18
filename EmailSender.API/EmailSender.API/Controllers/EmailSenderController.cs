@@ -18,11 +18,16 @@ namespace EmailSender.API.Controllers
 
         public EmailSenderController(ILogger<EmailSenderController> logger, EmailSenderService emailSender)
         {
-            
             _logger = logger;
             _emailSender = emailSender;
         }
 
+        /// <summary>
+        /// Sends an email using the EmailSenderService
+        /// </summary>
+        /// <param name="emailRequest">Request model containing subject, destination, and content</param>
+        /// <returns>HTTP 200 OK if the email is sent successfully, 
+        /// or specific HTTP code returned by sendgrid</returns>
         [HttpPost("SendEmail")]
         public async Task<IActionResult> SendEmail(EmailSendRequest emailRequest)
         {
