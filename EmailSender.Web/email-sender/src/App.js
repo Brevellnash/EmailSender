@@ -121,13 +121,13 @@ class App extends Component {
 
   SendEmail = () => {
     this.editor.exportHtml((data) => {
-      const { design, html } = data;
+      const { _, html } = data;
       const requestBody = {
         Recipient: this.state.input.email,
         Subject: this.state.input.subject,
         Content: html,
       };
-      const response = fetch("https://localhost:44323/emailsender/sendemail", {
+      fetch(process.env.REACT_APP_EMAIL_SEND_ENDPOINT, {
         method: "POST",
         mode: "cors",
         headers: {
@@ -146,14 +146,14 @@ class App extends Component {
             this.setState({ input: input });
           } else {
             NotificationManager.error(
-              "messaged failed to send",
+              "Messaged failed to send",
               "Error encountered"
             );
           }
         },
         () => {
           NotificationManager.error(
-            "messaged failed to send",
+            "Messaged failed to send",
             "Error encountered"
           );
         }

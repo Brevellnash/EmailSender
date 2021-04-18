@@ -20,6 +20,12 @@ namespace EmailSender.API.Services
             _emailConfig = emailSenderConfiguration;
         }
 
+
+        /// <summary>
+        /// Sends an email using sendgrid based on the EmailSendRequest model provided in request
+        /// </summary>
+        /// <param name="request">The EmailSendRequest that contains subject, destination, and content</param>
+        /// <returns>The HTTP status code returned from the sendgrid api</returns>
         public async Task<System.Net.HttpStatusCode> SendEmail(EmailSendRequest request)
         {
             try
@@ -36,7 +42,8 @@ namespace EmailSender.API.Services
             }
             catch(Exception ex)
             {
-                _logger.LogError(ex, "Exception {ex.Message} encountered when trying to send email", ex.Message);
+                _logger.LogError(ex, "Exception {ex.Message} encountered when trying to send email " +
+                    "with inputs Recipient: {request.Recipient}, Subject: {request.Subject}", ex.Message, request.Recipient, request.Subject);
                 return System.Net.HttpStatusCode.InternalServerError;
             }
         }
